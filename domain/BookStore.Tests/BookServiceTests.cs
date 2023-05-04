@@ -50,12 +50,12 @@ public class BookServiceTests
 
         bookRepository.ResultOfGetAllByIsbn = new[]
         {
-            new Book(idOfIsbnSearch, "", "", ""),
+            new Book(idOfIsbnSearch, "", "", "", "", default),
         };
         
         bookRepository.ResultOfGetAllByTitleOrAuthor = new[]
         {
-            new Book(idOfAuthorSearch, "", "", ""),
+            new Book(idOfAuthorSearch, "", "", "", "", default),
         };
         
         var bookService = new BookService(bookRepository);
@@ -75,12 +75,12 @@ public class BookServiceTests
 
         bookRepository.ResultOfGetAllByIsbn = new[]
         {
-            new Book(idOfIsbnSearch, "", "", ""),
+            new Book(idOfIsbnSearch, "", "", "", "", default),
         };
         
         bookRepository.ResultOfGetAllByTitleOrAuthor = new[]
         {
-            new Book(idOfAuthorSearch, "", "", ""),
+            new Book(idOfAuthorSearch, "", "", "", "", default),
         };
         
         var bookService = new BookService(bookRepository);
