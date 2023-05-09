@@ -12,9 +12,9 @@ public class BookController : Controller
         this.bookRepository = bookRepository;
     }
     
-    public IActionResult Index(int id)
+    public IActionResult Index(int bookId)
     {
-        Book book = bookRepository.GetById(id);
+        Book book = bookRepository.GetById(bookId);
         
         return View(book);
     }

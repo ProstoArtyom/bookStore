@@ -20,4 +20,9 @@ public class StudBookRepository : IBookRepository
     {
         throw new NotImplementedException();
     }
+
+    public Book[] GetAllByIds(IEnumerable<int> bookIds)
+    {
+        throw new NotImplementedException();
+    }
 }
