@@ -30,7 +30,7 @@ public class OrderController : Controller
 
         return (order, cart);
     }
-
+    
     public IActionResult AddItem(int bookId, int count = 1)
     {
         (Order order, Cart cart) = GetOrCreateOrderAndCart();
@@ -53,7 +53,7 @@ public class OrderController : Controller
         
         SaveOrderAndCart(order, cart);
 
-        return RedirectToAction("Index", "Book", new { id = bookId });
+        return RedirectToAction("Index", "Order");
     }
 
     private void SaveOrderAndCart(Order order, Cart cart)
@@ -74,7 +74,7 @@ public class OrderController : Controller
         
         SaveOrderAndCart(order, cart);
 
-        return RedirectToAction("Index", "Book", new { id = bookId });
+        return RedirectToAction("Index", "Order");
     }
 
     public IActionResult Index()
