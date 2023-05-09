@@ -14,6 +14,7 @@ builder.Services.AddSession(options =>
 });
 
 builder.Services.AddSingleton<IBookRepository, BookRepository>();
+builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<BookService>();
 
 var app = builder.Build();
@@ -37,6 +38,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{bookId?}");
 
 app.Run();
