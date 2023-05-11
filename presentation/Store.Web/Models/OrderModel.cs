@@ -11,4 +11,6 @@ public class OrderModel
     public int TotalCount { get; set; }
     
     public decimal TotalPrice { get; set; }
+    
+    public IDictionary<string, string> Errors { get; set; } = new Dictionary<string, string>();
 }
