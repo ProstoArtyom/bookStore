@@ -6,10 +6,10 @@
 
 <h1>Подтверждение мобильного телефона</h1>
 
-<form action="@Url.Action("StartDelivery")" method="post">
+<form action="@Url.Action("Confirmate")" method="post">
     <input type="hidden" name="id" value="@Model.OrderId"/>
     <input type="hidden" name="cellPhone" value="@Model.CellPhone"/>
-    <div class="input-group">
+    <div class="form-group">
         <label for="code">Код подтверждения</label>
         <input type="text" class="form-control" name="code" placeholder="0000"/>
         @if (Model.Errors.TryGetValue("code", out var error))

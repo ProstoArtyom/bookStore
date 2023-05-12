@@ -9,12 +9,15 @@ public class OrderController : Controller
 {
     private readonly IBookRepository bookRepository;
     private readonly IOrderRepository orderRepository;
+    private readonly IEnumerable<IDeliveryService> deliveryServices;
     private readonly INotificationService notificationService;
 
-    public OrderController(IBookRepository bookRepository, IOrderRepository orderRepository, INotificationService notificationService)
+    public OrderController(IBookRepository bookRepository, IOrderRepository orderRepository, 
+        IEnumerable<IDeliveryService> deliveryServices, INotificationService notificationService)
     {
         this.bookRepository = bookRepository;
         this.orderRepository = orderRepository;
+        this.deliveryServices = deliveryServices;
         this.notificationService = notificationService;
     }
 
@@ -156,7 +159,7 @@ public class OrderController : Controller
     }
 
     [HttpPost]
-    public IActionResult StartDelivery(int id, string cellPhone, int code)
+    public IActionResult Confirmate(int id, string cellPhone, int code)
     {
         int? storedCode = HttpContext.Session.GetInt32(cellPhone);
         if (storedCode == null)
@@ -187,8 +190,43 @@ public class OrderController : Controller
                 });
         }
         
-        //
+        // todo: сохранить CellPhone
+        
+        HttpContext.Session.Remove(cellPhone);
 
-        return View();
+        var model = new DeliveryModel
+        {
+            OrderId = id,
+            Methods = deliveryServices.ToDictionary(service => service.UniqueCode,
+                                                    service => service.Title)
+        };
+
+        return View("DeliveryMethod", model);
+    }
+
+    [HttpPost]
+    public IActionResult StartDelivery(int id, string uniqueCode)
+    {
+        var deliveryService = deliveryServices.Single(service => service.UniqueCode == uniqueCode);
+        var order = orderRepository.GetById(id);
+
+        var form = deliveryService.CreateForm(order);
+
+        return View("DeliveryStep", form);
+    }
+
+    [HttpPost]
+    public IActionResult NextDelivery(int id, string uniqueCode, int step, Dictionary<string, string> values)
+    {
+        var deliveryService = deliveryServices.Single(service => service.UniqueCode == uniqueCode);
+
+        var form = deliveryService.MoveNext(id, step, values);
+
+        if (form.IsFinal)
+        {
+            return null;
+        }
+
+        return View("DeliveryStep", form);
     }
 }
